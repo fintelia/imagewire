@@ -35,3 +35,8 @@ def write_heightmap(filename, heights, world_size):
             f.write("f {0} {1} {2}\n".format(p + 1, p + height + 1, p + height))
                     
     f.close()
+
+def write_heightmap_raw(filename, heights):
+    mm_heights = (heights * 1000).astype('int32')
+    with open(filename, 'wb') as f:
+        f.write(mm_heights.tobytes())

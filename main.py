@@ -36,10 +36,6 @@ def write_image(filename, img):
     with open(filename, 'wb') as f:
         f.write(data.tobytes())
 
-def write_attributes(filename, image_size):
-    with open(filename, 'w') as f:
-        f.write("image_size = ({},{})".format(image_size[0], image_size[1]))
-        
 # Check Arguments
 if len(sys.argv) <= 1:
     print("Usage: python3 imagewire /path/to/image.jpg")
@@ -49,6 +45,7 @@ if len(sys.argv) <= 1:
 metadata, image = load_image(sys.argv[1])
 latitude = read_coordinate(metadata["GPSLatitude"])
 longitude = read_coordinate(metadata["GPSLongitude"])
+altitude = from_rational(metadata["GPSAltitude"])
 north = int(latitude) - 1
 west = int(longitude) - 1 + 1
 
@@ -58,5 +55,17 @@ dataset = combine_datasets(datasets, name)
 
 data, world_size = dataset_to_array(dataset, 512)
 write_heightmap("intermediate/heightmap.obj", data, world_size)
+write_heightmap_raw("intermediate/heightmap.raw", data)
 write_image("intermediate/image.raw", image)
-write_attributes("intermediate/attributes.ini", image.size)
+
+# Write attributes
+with open("intermediate/attributes.ini", 'w') as f:
+    f.write("image_size = ({},{})\n".format(image.size[0], image.size[1]))
+    f.write("heightmap_size = ({},{})\n".format(data.shape[0], data.shape[1]))
+    f.write("world_size = ({},{})\n".format(world_size[0], world_size[1]))
+    f.write("coordinates = ({},{})\n".format(latitude, longitude))
+    f.write("altitude = ({})\n".format(altitude))
+    f.write("dataset_origin = ({},{})\n".format(north, west))
+    f.write("dataset_size = {}\n".format(3))
+
+    
