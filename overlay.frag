@@ -22,6 +22,8 @@ void main() {
 		if(texCoord.y < 0 || texCoord.y > 1)
 			discard;
 	}
-	
-	OutputColor = vec4(texture(image, texCoord).rgb, 0.75);
+
+	if(fract(texCoord.x) > 0.5)
+		discard;
+	OutputColor = vec4(texture(image, texCoord).rgb, 1);
 }
