@@ -87,3 +87,17 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+
+# Project specific
+files
+intermediate
+imagewire
+tmp
+download
+mt-chocorua.jpg
