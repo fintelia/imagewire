@@ -50,7 +50,7 @@ def try_open_image(filename):
     
 def show_preview(north, west, size):
     os.makedirs("download/ned1/preview",exist_ok=True)
-        
+
     # Download any preview images we don't yet have
     for x in range(size):
         for y in range(size):
@@ -132,21 +132,18 @@ def dataset_to_array(dataset, resolution):
     # TODO: Account for these sizes being negative (by flipping the arrays)
     sizeX = math.fabs(geotransforms[1] * dataset.RasterXSize * 111319.5)
     sizeY = math.fabs(geotransforms[5] * dataset.RasterYSize * 111319.5)
-    
     assert dataset.RasterXSize == dataset.RasterYSize
     assert dataset.RasterCount > 0
     
     band = dataset.GetRasterBand(1)
-    print('Computing statistics...')
-    band.ComputeStatistics(False, gdal.TermProgress) #, lambda x,msg,data : print()
-    amin = band.GetMinimum()
-    amax = band.GetMaximum()
-    print(amin)
-    print(amax)
+    #print('Computing statistics...')
+    # band.ComputeStatistics(False, gdal.TermProgress) #, lambda x,msg,data : print()
+    # amin = band.GetMinimum()
+    # amax = band.GetMaximum()
     center = int(dataset.RasterXSize/2), int(dataset.RasterYSize/2)
 
     arr = band.ReadAsArray()
-    print("arr size = {0}".format(arr.shape))
+    #print("arr size = {0}".format(arr.shape))
     arr2 = np.zeros((resolution, resolution))
     for x in range(resolution):
         for y in range(resolution):

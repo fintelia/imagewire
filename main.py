@@ -49,8 +49,9 @@ altitude = from_rational(metadata["GPSAltitude"])
 north = int(latitude) - 1
 west = int(longitude) - 1 + 1
 
-name = "n{0}_{1}w{2}_{3}".format(north, north+3, west, west+3)
-datasets = [[get_dataset(north+x,west+y) for x in range(3)] for y in range(3)]
+sl = 3
+name = "n{0}_{1}w{2}_{3}".format(north, north+sl, west, west+sl)
+datasets = [[get_dataset(north+x,west+y) for x in range(sl)] for y in range(sl)]
 dataset = combine_datasets(datasets, name)
 
 data, world_size = dataset_to_array(dataset, 512)

@@ -160,7 +160,7 @@ int main(int argc, const char **argv) {
   }
 
   string python_command = "python3 main.py "s + argv[1];
-  //system(python_command.c_str());
+  system(python_command.c_str());
 
   initialize();
   while (!glfwWindowShouldClose(window)) {
